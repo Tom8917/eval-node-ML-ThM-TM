@@ -5,5 +5,11 @@ export const routes = Router();
 
 routes.get("/cities", (req: Request, res: Response) => {
     const result = data.cities.map(({ zipCode, name }) => ({ zipCode, name }));
-    res.status(200).json(result);
+    res.json(result);
+});
+
+routes.get("/cities/:zipCode", (req: Request, res: Response) => {
+    const { zipCode } = req.params;
+    const cityData = data.cities.find((cityData) => cityData.zipCode === zipCode);
+    res.json({});
 });
