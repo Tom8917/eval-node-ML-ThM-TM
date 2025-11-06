@@ -92,3 +92,16 @@ routes.get("/weather/:id", (req: Request, res: Response) => {
 
     res.json({});
 });
+
+routes.get("/weather", (req: Request, res: Response) => {
+    const result = data.weatherBulletins.map((bulletin) => {
+        const city = data.cities.find((city) => city.zipCode === bulletin.zipCode);
+        return {
+            zipCode: bulletin.zipCode,
+            townName: city ? city.name : undefined,
+            weather: bulletin.weather,
+        };
+    });
+
+    res.json(result);
+});
