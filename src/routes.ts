@@ -31,3 +31,10 @@ routes.put("/cities/:zipCode", (req: Request, res: Response) => {
 
     res.json({});
 });
+
+routes.post("/cities", (req: Request, res: Response) => {
+    const { zipCode, name } = req.body;
+    data.cities.push({ zipCode, name });
+    res.json({});
+});
+
