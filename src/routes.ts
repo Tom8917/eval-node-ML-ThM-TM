@@ -81,3 +81,14 @@ routes.get("/cities/:zipCode/weather/:id", (req: Request, res: Response) => {
 
     res.json({});
 });
+
+routes.get("/weather/:id", (req: Request, res: Response) => {
+    const { id } = req.params;
+    const numericId = Number(id);
+
+    const bulletin = data.weatherBulletins.find(
+        (bulletin) => bulletin.id === numericId
+    );
+
+    res.json({});
+});
