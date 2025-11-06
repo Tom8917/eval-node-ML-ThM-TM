@@ -11,7 +11,15 @@ routes.get("/cities", (req: Request, res: Response) => {
 routes.get("/cities/:zipCode", (req: Request, res: Response) => {
     const { zipCode } = req.params;
     const city = data.cities.find((city) => city.zipCode === zipCode);
-    res.json(city ?? {});
+
+    if (!city) {
+        return res.status(404).json({});
+    }
+
+    return res.status(200).json({
+        zipCode: city.zipCode,
+        name: city.name,
+    });
 });
 
 routes.delete("/cities/:zipCode", (req: Request, res: Response) => {
