@@ -60,3 +60,13 @@ routes.post("/cities/:zipCode/weather", (req: Request, res: Response) => {
     res.json({});
 });
 
+routes.delete("/weather/:id", (req: Request, res: Response) => {
+    const { id } = req.params;
+    const numericId = Number(id);
+
+    data.weatherBulletins = data.weatherBulletins.filter(
+        (bulletin) => bulletin.id !== numericId
+    );
+
+    res.json({});
+});
