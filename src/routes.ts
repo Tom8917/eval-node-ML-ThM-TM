@@ -20,3 +20,14 @@ routes.delete("/cities/:zipCode", (req: Request, res: Response) => {
     res.json({});
 });
 
+routes.put("/cities/:zipCode", (req: Request, res: Response) => {
+    const { zipCode } = req.params;
+    const { name } = req.body;
+
+    const city = data.cities.find((city) => city.zipCode === zipCode);
+    if (city) {
+        city.name = name;
+    }
+
+    res.json({});
+});
