@@ -10,8 +10,8 @@ routes.get("/cities", (req: Request, res: Response) => {
 
 routes.get("/cities/:zipCode", (req: Request, res: Response) => {
     const { zipCode } = req.params;
-    const cityData = data.cities.find((cityData) => cityData.zipCode === zipCode);
-    res.json(cityData ?? {});
+    const city = data.cities.find((city) => city.zipCode === zipCode);
+    res.json(city ?? {});
 });
 
 routes.delete("/cities/:zipCode", (req: Request, res: Response) => {
@@ -28,7 +28,6 @@ routes.put("/cities/:zipCode", (req: Request, res: Response) => {
     if (city) {
         city.name = name;
     }
-
     res.json({});
 });
 
@@ -42,3 +41,22 @@ routes.get("/cities/:zipCode/weather", (req: Request, res: Response) => {
     const { zipCode } = req.params;
     res.json({});
 });
+
+routes.post("/cities/:zipCode/weather", (req: Request, res: Response) => {
+    const { zipCode } = req.params;
+    const { weather } = req.body;
+
+    const lastId =
+        data.weatherBulletins.length > 0
+            ? data.weatherBulletins[data.weatherBulletins.length - 1].id
+            : 0;
+
+    data.weatherBulletins.push({
+        id: lastId + 1,
+        zipCode,
+        weather,
+    });
+
+    res.json({});
+});
+
