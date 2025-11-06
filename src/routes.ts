@@ -24,8 +24,19 @@ routes.get("/cities/:zipCode", (req: Request, res: Response) => {
 
 routes.delete("/cities/:zipCode", (req: Request, res: Response) => {
     const { zipCode } = req.params;
+    const city = data.cities.find((city) => city.zipCode === zipCode);
+
+    if (!city) {
+        return res.status(404).json({});
+    }
+
     data.cities = data.cities.filter((city) => city.zipCode !== zipCode);
-    res.json({});
+
+    data.weatherBulletins = data.weatherBulletins.filter(
+        (bulletin) => bulletin.zipCode !== zipCode
+    );
+
+    return res.status(200).json({});
 });
 
 routes.put("/cities/:zipCode", (req: Request, res: Response) => {
