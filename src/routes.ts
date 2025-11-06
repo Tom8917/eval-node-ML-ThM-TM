@@ -38,3 +38,7 @@ routes.post("/cities", (req: Request, res: Response) => {
     res.json({});
 });
 
+routes.get("/cities/:zipCode/weather", (req: Request, res: Response) => {
+    const { zipCode } = req.params;
+    res.json({});
+});
