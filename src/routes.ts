@@ -11,7 +11,7 @@ routes.get("/cities", (req: Request, res: Response) => {
 routes.get("/cities/:zipCode", (req: Request, res: Response) => {
     const { zipCode } = req.params;
     const cityData = data.cities.find((cityData) => cityData.zipCode === zipCode);
-    res.json({});
+    res.json(cityData ?? {});
 });
 
 routes.delete("/cities/:zipCode", (req: Request, res: Response) => {
@@ -35,11 +35,6 @@ routes.put("/cities/:zipCode", (req: Request, res: Response) => {
 routes.post("/cities", (req: Request, res: Response) => {
     const { zipCode, name } = req.body;
     data.cities.push({ zipCode, name });
-    res.json({});
-});
-
-routes.get("/cities/:zipCode/weather", (req: Request, res: Response) => {
-    const { zipCode } = req.params;
     res.json({});
 });
 
