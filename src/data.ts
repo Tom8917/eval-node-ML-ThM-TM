@@ -3,7 +3,7 @@ export type City = {
     name: string;
 };
 
-export type WeatherType = "pluvieux" | "ensoleillé" | "neigeux";
+export type WeatherType = "pluie" | "beau" | "neige";
 
 export type WeatherBulletin = {
     id: number;
@@ -12,6 +12,15 @@ export type WeatherBulletin = {
 };
 
 export const data = {
-    cities: [] as City[],
-    weatherBulletins: [] as WeatherBulletin[],
+    cities: [
+        { zipCode: "21001", name: "Dijon1" },
+        { zipCode: "21002", name: "Dijon2" },
+        { zipCode: "21003", name: "Dijon3" },
+    ] as City[],
+
+    weatherBulletins: [
+        { id: 1, zipCode: "21001", weather: "pluie" },
+        { id: 2, zipCode: "21002", weather: "beau" },
+        { id: 3, zipCode: "21003", weather: "neige" },
+    ] as WeatherBulletin[],
 };
