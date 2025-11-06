@@ -43,12 +43,19 @@ routes.put("/cities/:zipCode", (req: Request, res: Response) => {
     const { zipCode } = req.params;
     const { name } = req.body;
 
-    const city = data.cities.find((city) => city.zipCode === zipCode);
-    if (city) {
-        city.name = name;
+    if (!name) {
+        return res.status(400).json({});
     }
-    res.json({});
+
+    const city = data.cities.find((city) => city.zipCode === zipCode);
+    if (!city) {
+        return res.status(404).json({});
+    }
+
+    city.name = name;
+    res.status(200).json({ zipCode, name });
 });
+
 
 routes.post("/cities", (req: Request, res: Response) => {
     const { zipCode, name } = req.body;
