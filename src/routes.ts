@@ -39,7 +39,34 @@ routes.post("/cities", (req: Request, res: Response) => {
 
 routes.get("/cities/:zipCode/weather", (req: Request, res: Response) => {
     const { zipCode } = req.params;
-    res.json({});
+
+    const city = data.cities.find((city) => city.zipCode === zipCode);
+    if (!city) {
+        return res.status(404).json({});
+    }
+
+    const bulletins = data.weatherBulletins.filter((b) => b.zipCode === zipCode);
+    if (bulletins.length === 0) {
+        return res.status(404).json({});
+    }
+
+    const counts: Record<string, number> = { pluie: 0, beau: 0, neige: 0 };
+    for (const b of bulletins) counts[b.weather] = (counts[b.weather] ?? 0) + 1;
+
+    let dominant: "pluie" | "beau" | "neige" = "pluie";
+    let max = -1;
+    (["pluie", "beau", "neige"] as const).forEach((k) => {
+        if (counts[k] > max) {
+            max = counts[k];
+            dominant = k;
+        }
+    });
+
+    return res.status(200).json({
+        zipCode,
+        name: city.name,
+        weather: dominant,
+    });
 });
 
 routes.post("/cities/:zipCode/weather", (req: Request, res: Response) => {
@@ -75,11 +102,24 @@ routes.get("/cities/:zipCode/weather/:id", (req: Request, res: Response) => {
     const { zipCode, id } = req.params;
     const numericId = Number(id);
 
-    const bulletin = data.weatherBulletins.find(
-        (bulletin) => bulletin.id === numericId && bulletin.zipCode === zipCode
-    );
+    const city = data.cities.find((city) => city.zipCode === zipCode);
+    if (!city) {
+        return res.status(404).json({});
+    }
 
-    res.json({});
+    const bulletin = data.weatherBulletins.find(
+        (b) => b.id === numericId && b.zipCode === zipCode
+    );
+    if (!bulletin) {
+        return res.status(404).json({});
+    }
+
+    return res.status(200).json({
+        id: bulletin.id,
+        zipCode: bulletin.zipCode,
+        townName: city.name,
+        weather: bulletin.weather,
+    });
 });
 
 routes.get("/weather/:id", (req: Request, res: Response) => {
@@ -90,7 +130,7 @@ routes.get("/weather/:id", (req: Request, res: Response) => {
         (bulletin) => bulletin.id === numericId
     );
 
-    res.json({});
+    res.json(numericId ?? {});
 });
 
 routes.get("/weather", (req: Request, res: Response) => {
