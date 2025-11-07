@@ -1,0 +1,49 @@
+### Lister toutes les villes
+GET http://localhost:3000/cities
+
+### Détail d'une ville
+GET http://localhost:3000/cities/21001
+
+### Ajouter une ville
+POST http://localhost:3000/cities
+Content-Type: application/json
+
+{
+  "zipCode": "21001",
+  "name": "Dijon"
+}
+
+### Modifier une ville
+PUT http://localhost:3000/cities/21001
+Content-Type: application/json
+
+{
+  "name": "Dijon Centre"
+}
+
+### Supprimer une ville
+DELETE http://localhost:3000/cities/21001
+
+
+### Ajouter un bulletin météo
+POST http://localhost:3000/cities/21001/weather
+Content-Type: application/json
+
+{
+  "weather": "pluie"
+}
+
+### Météo d'une ville (tendance dominante)
+GET http://localhost:3000/cities/21001/weather
+
+### Détail d’un bulletin météo pour une ville
+GET http://localhost:3000/cities/21001/weather/1
+
+### Détail d’un bulletin météo global
+GET http://localhost:3000/weather/1
+
+### Liste de tous les bulletins
+GET http://localhost:3000/weather
+
+### Supprimer un bulletin météo
+DELETE http://localhost:3000/weather/1
