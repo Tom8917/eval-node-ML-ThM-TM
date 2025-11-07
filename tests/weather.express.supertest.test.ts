@@ -9,7 +9,7 @@ describe("Weather API", () => {
         resetData();
     });
 
-    it("GET /cities → 200 avec la liste des villes", async () => {
+    it("GET /cities : 200 avec la liste des villes", async () => {
         const res = await request(app).get("/cities");
         expect(res.status).toBe(200);
         expect(Array.isArray(res.body)).toBe(true);
@@ -18,7 +18,7 @@ describe("Weather API", () => {
         expect(res.body[0]).toHaveProperty("name");
     });
 
-    it("GET /cities/:zipCode → 200 si existe, 404 sinon", async () => {
+    it("GET /cities/:zipCode : 200 si existe, 404 sinon", async () => {
         const ok = await request(app).get("/cities/21001");
         expect(ok.status).toBe(200);
         expect(ok.body.zipCode).toBe("21001");
@@ -27,7 +27,7 @@ describe("Weather API", () => {
         expect(notFound.status).toBe(404);
     });
 
-    it("POST /cities → 201 puis GET /cities/:zipCode → 200", async () => {
+    it("POST /cities : 201 puis GET /cities/:zipCode : 200", async () => {
         const create = await request(app)
             .post("/cities")
             .send({ zipCode: "22000", name: "TestVille" });
@@ -38,7 +38,7 @@ describe("Weather API", () => {
         expect(get.body.name).toBe("TestVille");
     });
 
-    it("PUT /cities/:zipCode → 200 si ville existe, 404 sinon, 400 si name manquant", async () => {
+    it("PUT /cities/:zipCode : 200 si ville existe, 404 sinon, 400 si name manquant", async () => {
         const badBody = await request(app)
             .put("/cities/21001")
             .send({});
@@ -56,7 +56,7 @@ describe("Weather API", () => {
         expect(notFound.status).toBe(404);
     });
 
-    it("DELETE /cities/:zipCode → 200 si existe, 404 sinon", async () => {
+    it("DELETE /cities/:zipCode : 200 si existe, 404 sinon", async () => {
         const ok = await request(app).delete("/cities/21001");
         expect(ok.status).toBe(200);
 
@@ -64,7 +64,7 @@ describe("Weather API", () => {
         expect(again.status).toBe(404);
     });
 
-    it("POST /cities/:zipCode/weather → 201 {id}, 404 si ville inconnue, 400 si invalide", async () => {
+    it("POST /cities/:zipCode/weather : 201 {id}, 404 si ville inconnue, 400 si invalide", async () => {
         const notFound = await request(app)
             .post("/cities/99999/weather")
             .send({ weather: "pluie" });
@@ -82,7 +82,9 @@ describe("Weather API", () => {
         expect(ok.body).toHaveProperty("id");
     });
 
-    it("GET /cities/:zipCode/weather → 200 avec tendance ou 404 si rien", async () => {
+    it("GET /cities/:zipCode/weather : 200 avec tendance ou 404 si rien", async () => {
+        const none = await request(app).get("/cities/21001/weather");
+        expect(none.status).toBe(404);
 
         await request(app)
             .post("/cities/21001/weather")
@@ -99,7 +101,7 @@ describe("Weather API", () => {
         expect(res.body.weather).toBe("pluie");
     });
 
-    it("GET /weather/:id et GET /cities/:zipCode/weather/:id → 200/404 cohérents", async () => {
+    it("GET /weather/:id et GET /cities/:zipCode/weather/:id : 200/404 cohérents", async () => {
         const create = await request(app)
             .post("/cities/21001/weather")
             .send({ weather: "neige" });
@@ -119,7 +121,7 @@ describe("Weather API", () => {
         expect(notFound.status).toBe(404);
     });
 
-    it("DELETE /weather/:id → 200 si supprimé, 404 sinon", async () => {
+    it("DELETE /weather/:id : 200 si supprimé, 404 sinon", async () => {
         const create = await request(app)
             .post("/cities/21001/weather")
             .send({ weather: "beau" });
@@ -132,7 +134,7 @@ describe("Weather API", () => {
         expect(again.status).toBe(404);
     });
 
-    it("GET /weather → 200 avec un tableau", async () => {
+    it("GET /weather : 200 avec un tableau", async () => {
         await request(app)
             .post("/cities/21001/weather")
             .send({ weather: "pluie" });

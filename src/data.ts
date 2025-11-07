@@ -17,11 +17,7 @@ const initialCities: City[] = [
     { zipCode: "21003", name: "Dijon3" },
 ];
 
-const initialWeatherBulletins: WeatherBulletin[] = [
-    { id: 1, zipCode: "21001", weather: "pluie" },
-    { id: 2, zipCode: "21002", weather: "beau" },
-    { id: 3, zipCode: "21003", weather: "neige" },
-];
+const initialWeatherBulletins: WeatherBulletin[] = [];
 
 export const data = {
     cities: [...initialCities],
