@@ -58,13 +58,16 @@ On ne peut pas afficher une météo d'une ville si aucun bulletin n'est enregist
 Exemples d'utilisations dans Postman:
 
 POST:
+<br>
 http://localhost:3000/cities/00000
+<br>
 body:
 {
 "zipCode" : "00000",
 "name" : "test"
 }
-
+<br>
+<br>
 GET:
 http://localhost:3000/cities/00000
 réponse:
